@@ -11,7 +11,11 @@ const theme = extendTheme({
     gray: {
       50: '#161616', // Custom gray.50 color
       100: '#0e0e0e', // You can override other shades as well
+      200: '#1a1a1a',
     },
+    white: {
+      50: '#ffffff',
+     } // Custom white color
   },
   styles: {
     global: {

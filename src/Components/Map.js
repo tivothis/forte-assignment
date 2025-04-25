@@ -5,11 +5,13 @@ import {
   Grid,
   GridItem,
 } from '@chakra-ui/react';// Import the heatmap image
-import MapWithFilters from './MapWithFilters.js'; // Import the MapWithFilters component
+import MapWithFilters from './MapWithFilters.js';
+import StateCards from './StateCards.js'; // Import the state cards
 
 export default function Map() {
-  const defaultCardColor = 'gray.100';
-  const templateColumns = '2fr 1fr'
+  const defaultCardColor = "white.50"; // Use the theme color
+  const defaultFontColor = "black";
+  const templateColumns = "2fr 1fr"
 
 
   return (
@@ -17,21 +19,25 @@ export default function Map() {
       backgroundColor={defaultCardColor}
       width="100%"
       height="100%"
+      padding="1rem .5em 1rem .5em"
       >
       <CardHeader
-        color="white"
+        color={defaultFontColor}
         fontSize="2xl"
         textAlign="center"
         padding="1rem .5em 1rem .5em"
       >
         2021 CDC Places Ranking 2024 Release, FL=2019
       </CardHeader>
-      <Grid templateColumns={templateColumns} gap={2} color="white">
+      <Grid
+        templateColumns={templateColumns}
+        gap={3}
+        color={defaultFontColor}>
         <GridItem>
           <MapWithFilters />
         </GridItem>
         <GridItem>
-          Two
+          <StateCards />
         </GridItem>
       </Grid>
     </Card>
