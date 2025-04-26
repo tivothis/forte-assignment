@@ -6,88 +6,156 @@ import {
   TabPanels,
   TabPanel,
   useMediaQuery,
-  useBreakpointValue,
-} from '@chakra-ui/react'; // Import Box from Chakra UI
-import Map from './Components/Map.js'; // Import the Map component
-// import theme from './theme'; // Import the theme
-import theme from './theme.js'; // Import the theme
+} from '@chakra-ui/react';
+import Map from './Components/Map.js';
+import theme from './theme.js';
 
 function App() {
 
-  const defaultTabColor = 'black';
-  const defaultBackgroundColor = 'white.50'; // Use the theme color
-  const tabBorder="1px solid black";
-  const [isMobile] = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`); // Use the 'sm' breakpoint
-  const [isTablet] = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`); // Use 'md' and 'lg' breakpoints
+
+  const tabStyling = {
+    border: `2px solid ${theme.colors.blue[200]}`,
+    borderRadius: "10px",
+    backgroundColor: theme.colors.blue[50],
+    tabColor: theme.colors.blue[200],
+    fontColor: theme.colors.black[50],
+    activeTabFontColor: theme.colors.white[50],
+    fontSize: '10px',
+    gap: {
+      base: "0",
+      sm: "0.25em",
+      md: "1rem",
+    }
+  }
+
+  const [isMobile] = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  const [isTablet] = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`);
 
 
   return (
     <Box
-      backgroundColor={defaultBackgroundColor} // Use the theme color
+      // backgroundColor={tabStyling.backgroundColor} // Use the theme color
+      backgroundImage="url('/bluebackground.jpeg')"
+      backgroundSize="cover"
+      backgroundPosition="center"
       display="flex"
-      flexDirection="column" // Ensure the layout stacks vertically
-      height="100vh" // Full viewport height
-      width="100vw" // Full viewport width
-      overflow="hidden" // Prevent content from overflowing
+      flexDirection="column"
+      height="100vh"
+      width="100vw"
+      maxWidth="2000px"
+      overflow="hidden"
     >
       <Tabs
-        orientation={isMobile ? "horizontal" : isTablet ? "horizontal" : "vertical"} // Horizontal for mobile, vertical for desktop
+        orientation={isMobile ? "horizontal" : isTablet ? "horizontal" : "vertical"}
         variant="soft-rounded"
         display="flex"
-        flexDirection={isMobile ? "column-reverse" : isTablet ? "column" : "row"} // Tabs at the bottom for mobile
-        alignItems={isMobile ? "center" : isTablet ? "flex-start" : "center"} // Center tabs for mobile and desktop
-        justifyContent={isMobile ? "flex-end" : isTablet ? "flex-start" : "center"} // Adjust alignment
+        flexDirection={isMobile ? "column-reverse" : isTablet ? "column" : "row"}
+        alignItems={isMobile ? "center" : isTablet ? "flex-start" : "center"}
+        justifyContent={isMobile ? "flex-end" : isTablet ? "center" : "flex-start"}
         width="100%"
-        height="100%" // Ensure Tabs take the full height of the parent Box
+        height="100%"
         defaultIndex={3}
       >
         <TabList
-          width={isMobile ? "100%" : isTablet ? "100%" : "30%"} // Full width for mobile and tablet
+          width={isMobile ? "100%" : isTablet ? "100%" : "22%"}
           padding="1rem .5em 1rem .5em"
-          gap={isMobile ? "0" : isTablet ? ".25em" : "1rem"} // Add spacing between tabs
-          flexDirection={isMobile ? "row" : isTablet ? "row" : "column"} // Horizontal for mobile
-          flexShrink={0} // Prevent shrinking
-          position={isMobile ? "absolute" : "static"} // Position tabs at the bottom for mobile
-          bottom={isMobile ? 0 : "auto"} // Align tabs to the bottom for mobile
-          backgroundColor={isMobile ? "white" : "transparent"} // Add background for mobile tabs
-          zIndex={isMobile ? 1 : "auto"} // Ensure tabs are above content for mobile
+          gap={isMobile ? tabStyling.gap.base : isTablet ? tabStyling.gap.sm : tabStyling.gap.md}
+          flexDirection={isMobile ? "row" : isTablet ? "row" : "column"}
+          flexShrink={0}
+          position={isMobile ? "absolute" : "static"}
+          bottom={isMobile ? 0 : "auto"}
+          backgroundColor={isMobile || isTablet? tabStyling.tabColor : "transparent"}
+          zIndex={isMobile ? 1 : "auto"}
         >
-          <Tab color={defaultTabColor} border={tabBorder} fontSize={isMobile ? "10px" : "inherit"}>
+          <Tab
+            color={tabStyling.tabColor}
+            background={tabStyling.activeTabFontColor}
+            border={tabStyling.border}
+            borderRadius={tabStyling.borderRadius}
+            fontSize={isMobile ? tabStyling.fontSize : "inherit"}
+            _selected={{
+              background: theme.colors.blue[200],
+              color: tabStyling.activeTabFontColor,
+            }}
+          >
             MA Enrollment Bar Chart
           </Tab>
-          <Tab color={defaultTabColor} border={tabBorder} fontSize={isMobile ? "10px" : "inherit"}>
+          <Tab
+            color={tabStyling.tabColor}
+            background={tabStyling.activeTabFontColor}
+            border={tabStyling.border}
+            borderRadius={tabStyling.borderRadius}
+            fontSize={isMobile ? tabStyling.fontSize : "inherit"}
+            _selected={{
+              background: theme.colors.blue[200],
+              color: tabStyling.activeTabFontColor,
+            }}
+          >
             MA Enrollment Slope Table
           </Tab>
-          <Tab color={defaultTabColor} border={tabBorder} fontSize={isMobile ? "10px" : "inherit"}>
+          <Tab
+            color={tabStyling.tabColor}
+            background={tabStyling.activeTabFontColor}
+            border={tabStyling.border}
+            borderRadius={tabStyling.borderRadius}
+            fontSize={isMobile ? tabStyling.fontSize : "inherit"}
+            _selected={{
+              background: theme.colors.blue[200],
+              color: tabStyling.activeTabFontColor,
+            }}
+          >
             Medicaid Drug Data
           </Tab>
-          <Tab color={defaultTabColor} border={tabBorder} fontSize={isMobile ? "10px" : "inherit"}>
+          <Tab
+            color={tabStyling.tabColor}
+            background={tabStyling.activeTabFontColor}
+            border={tabStyling.border}
+            borderRadius={tabStyling.borderRadius}
+            fontSize={isMobile ? tabStyling.fontSize : "inherit"}
+            _selected={{
+              background: theme.colors.blue[200],
+              color: tabStyling.activeTabFontColor,
+            }}
+          >
             2021 CDC Places Ranking
           </Tab>
-          <Tab color={defaultTabColor} border={tabBorder} fontSize={isMobile ? "10px" : "inherit"}>
+          <Tab
+            color={tabStyling.tabColor}
+            background={tabStyling.activeTabFontColor}
+            border={tabStyling.border}
+            borderRadius={tabStyling.borderRadius}
+            fontSize={isMobile ? tabStyling.fontSize : "inherit"}
+            _selected={{
+              background: theme.colors.blue[200],
+              color: tabStyling.activeTabFontColor,
+            }}
+          >
             Medicare Part B Drug Spending
           </Tab>
         </TabList>
 
         <TabPanels
-          flex={1} // Allow TabPanels to take the remaining space
-          overflow="auto" // Handle overflow if needed
-          height="100%" // Ensure TabPanels take the full height of the parent Tabs
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          flex={1}
+          overflow="auto"
+          height="100%"
         >
           <TabPanel>
-            <p>MA Enrollment Bar Chart</p>
+
           </TabPanel>
           <TabPanel>
-            <p>MA Enrollment Slope Table</p>
+
           </TabPanel>
           <TabPanel>
-            <p>Medicaid Drug Data</p>
+
           </TabPanel>
-          <TabPanel>
+          <TabPanel overflowY="auto">
             <Map />
           </TabPanel>
           <TabPanel>
-            <p>Medicare Part B Drug Spending</p>
+
           </TabPanel>
         </TabPanels>
       </Tabs>

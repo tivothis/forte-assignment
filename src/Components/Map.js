@@ -12,40 +12,46 @@ import {
   ModalBody,
   ModalCloseButton,
   Box,
-} from '@chakra-ui/react';// Import the heatmap image
+} from '@chakra-ui/react';
 import MapWithFilters from './MapWithFilters.js';
-import StateCards from './StateCards.js'; // Import the state cards
-import theme from '../theme.js'; // Import the theme
-
-// export const MapContext = createContext();
+import StateCards from './StateCards.js';
+import theme from '../theme.js';
 
 export default function Map() {
-  const [isMobile] = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`); // Use the 'sm' breakpoint
-  const [isTablet] = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`); // Use 'md' and 'lg' breakpoints
+  const [isMobile] = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  const [isTablet] = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`);
   const [selectedStates, setSelectedStates] = useState([]);
-  const [isAllStatesChecked, setIsAllStatesChecked] = useState(false); // State for "All States" checkbox
+  const [isAllStatesChecked, setIsAllStatesChecked] = useState(false);
 
-  const [viewStateModal, setViewStateModal] = useState(false); // State to control the modal visibility
-  const defaultCardColor = "white.50"; // Use the theme color
-  const defaultFontColor = "black";
+  const [viewStateModal, setViewStateModal] = useState(false);
+
+
   const templateColumns = isMobile? "1fr" : isTablet? "1fr 1fr" : "2fr 1fr"
 
+  const parentCardStyling = {
+    backgroundColor: theme.colors.gray[50],
+    fontColor: theme.colors.blue[200],
+    width: "100%",
+    maxHeight: "100vh",
+    overflow: "auto",
+    marginBottom: isMobile? "7em" : "0",
+  }
 
 
 
   return (
       <Card
-        backgroundColor={defaultCardColor}
-        width="100%"
-        height="100%"
-        maxHeight="100vh" // Ensure the Card does not exceed the viewport height
-        overflow="auto" // Handle any overflowing content
+        backgroundColor={parentCardStyling.backgroundColor}
+        width={parentCardStyling.width}
         padding="1rem .5em 1rem .5em"
+        marginBottom={parentCardStyling.marginBottom}
+        minWidth={parentCardStyling.minWidth}
         >
           <Box display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
             <CardHeader
-              color={defaultFontColor}
-              fontSize="2xl"
+              color={parentCardStyling.fontColor}
+              fontSize="30px"
+              fontWeight="bold"
               textAlign="center"
               padding="0 .5em 1rem .5em"
             >
@@ -54,14 +60,16 @@ export default function Map() {
               <Image
                 src={"/heatmap2.jpg"}
                 alt="Heatmap"
-                width="75%"
+                width={isMobile? "100%" :"70%"}
                 height="auto"
+                marginBottom="1em"
+                borderRadius="10px"
               />
           </Box>
         <Grid
           templateColumns={templateColumns}
           gap={3}
-          color={defaultFontColor}>
+        >
           <GridItem>
             <MapWithFilters
               setViewStateModal={setViewStateModal}

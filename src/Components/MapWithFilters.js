@@ -1,6 +1,4 @@
-import {useState} from "react";
 import {
-  Image,
   Box,
   Grid,
   GridItem,
@@ -12,14 +10,11 @@ import {
   RadioGroup,
   Stack,
   Checkbox,
-  // Select,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { StateList } from "./StateList.js"; // Import the state list
-
-// import { MultiSelect } from 'chakra-multiselect'
+import { StateList } from "./StateList.js";
 import Select from 'react-select';
-import theme from "../theme.js"; // Import the theme
+import theme from "../theme.js";
 
 export default function MapWithFilters({
   setViewStateModal,
@@ -28,17 +23,21 @@ export default function MapWithFilters({
   isAllStatesChecked,
   setIsAllStatesChecked,
 }) {
-  const [isMobile] = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`); // Use the 'sm' breakpoint
-  const [isTablet] = useMediaQuery(`(min-width: ${theme.breakpoints.lg})`); // Use 'md' and 'lg' breakpoints
-  // const [value, setValue] = useState([])
-  // const [isAllStatesChecked, setIsAllStatesChecked] = useState(false); // State for "All States" checkbox
+  const [isMobile] = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  const [isTablet] = useMediaQuery(`(min-width: ${theme.breakpoints.lg})`);
+
   const templateColumns = isMobile? "1fr" : "repeat(2, 1fr)";
-  const templateRows = "40% 55%";
-  const defaultCardColor = "white.50"; // Use the theme color
-  const defaultFontColor = "black";
+  const templateRows = isTablet || isMobile? "auto" : "40% 45%";
   const labelMarginBottom = "0.5em";
 
-  // const isMobile = useMediaQuery("(max-width: 768px)")[0]; // Check if the screen size is mobile or smaller
+  const styling = {
+    parentCardColor: theme.colors.gray[100],
+    childCardColor: theme.colors.white[50],
+    fontColor: theme.colors.blue[200],
+    borderColor: theme.colors.blue[100],
+    borderWidth: "1px",
+  }
+
 
 
   const stateOptions = Object.values(StateList).map((state) => ({
@@ -46,36 +45,40 @@ export default function MapWithFilters({
     label: state,
   }));
 
-  // Handle selection logic
   const handleChange = (selectedOptions) => {
     setSelectedStates(selectedOptions || []);
   };
 
-  // Handle "All States" checkbox logic
   const handleAllStatesChange = (e) => {
     const isChecked = e.target.checked;
     setIsAllStatesChecked(isChecked);
 
     if (isChecked) {
-      // If "All States" is checked, clear the selected options
       setSelectedStates([]);
     }
   };
 
   return (
     <Card
-      width="100%"
-      height="100%"
-      backgroundColor={defaultCardColor}
-      padding={isTablet? "0" :"1em"}
+    width="100%"
+    height="100%"
+    backgroundColor={styling.parentCardColor}
+    padding={isTablet || isMobile ? "0" : "1em"}
+    borderColor={styling.borderColor}
+    borderWidth={styling.borderWidth}
+    display="flex"
+    flexDirection="column"
+
     >
       <Grid
         templateColumns={templateColumns}
         templateRows={templateRows}
+        flex="1"
         height={isMobile? "50%" : "100%"}
         gap={2}
-        color={defaultFontColor}
+        color={styling.fontColor}
         padding="1rem .5em 1rem .5em"
+
       >
         <GridItem>
           <Heading
@@ -85,18 +88,20 @@ export default function MapWithFilters({
             Quantile
           </Heading>
           <Card
-            backgroundColor={defaultCardColor}
-            padding=".5em"
+            backgroundColor={styling.childCardColor}
+            borderColor={styling.borderColor}
+            borderWidth={styling.borderWidth}
+            padding={isTablet || isMobile? "0" :".5em"}
             borderRadius="md"
-            color={defaultFontColor}
+            color={styling.fontColor}
           >
             <CardBody padding=".5em">
               <RadioGroup >
                 <Stack spacing={35} direction='row'>
-                  <Radio value='Quantile'>
+                  <Radio value='Quantile' colorScheme="blue">
                     Quantile
                   </Radio>
-                  <Radio value='Quintile'>
+                  <Radio value='Quintile' colorScheme="blue">
                     Quintile
                   </Radio>
                 </Stack>
@@ -112,10 +117,12 @@ export default function MapWithFilters({
             Data Display Type
           </Heading>
           <Card
-            backgroundColor={defaultCardColor}
-            padding=".5em"
+            backgroundColor={styling.childCardColor}
+            borderColor={styling.borderColor}
+            borderWidth={styling.borderWidth}
+            padding={isTablet || isMobile? "0" :".5em"}
             borderRadius="md"
-            color={defaultFontColor}
+            color={styling.fontColor}
           >
             <CardBody padding=".5em">
               <RadioGroup >
@@ -139,11 +146,12 @@ export default function MapWithFilters({
           {`Condition(s)`}
         </Heading>
           <Card
-            backgroundColor={defaultCardColor}
-            padding="0 .5em .5em .5em"
+            backgroundColor={styling.childCardColor}
+            borderColor={styling.borderColor}
+            borderWidth={styling.borderWidth}
+            padding={isTablet || isMobile? "0" : "0 .5em .5em .5em"}
             borderRadius="md"
-            color={defaultFontColor}
-            height="80%"
+            color={styling.fontColor}
           >
             <CardBody display="flex" flexDirection="row" padding=".5em">
               <Stack direction="column"  marginRight="3rem" spacing={0}>
@@ -185,20 +193,20 @@ export default function MapWithFilters({
             States
           </Heading>
           <Box
-            // paddingTop="1rem"
             display="flex"
             flexDirection="column"
             justifyContent="space-between"
             height={isTablet? "" : "100%"}
+            paddingBottom={isMobile? "1em" : "0"}
           >
-                        <Select
+            <Select
               options={stateOptions}
               value={selectedStates}
               onChange={handleChange}
               isMulti
               placeholder="Choose states"
               closeMenuOnSelect={false}
-              isDisabled={isAllStatesChecked} // Disable the Select component if "All States" is checked
+              isDisabled={isAllStatesChecked}
               styles={{
                 control: (base) => ({
                   ...base,
@@ -222,6 +230,7 @@ export default function MapWithFilters({
                     width: "6px",
                     height: "6px",
                   },
+                  scrollbarColor: 'gray transparent',
                   "&::-webkit-scrollbar-thumb": {
                     background: "#c4c4c4",
                     borderRadius: "4px",
@@ -260,6 +269,7 @@ export default function MapWithFilters({
             flexDirection="row"
             justifyContent={isMobile? "space-around" : "flex-end"}
             alignItems="center"
+            marginBottom={isMobile? "1em" : "0"}
             >
               {isMobile?
                 <Button
@@ -281,7 +291,7 @@ export default function MapWithFilters({
                   colorScheme="teal"
                   variant="solid"
                   size="sm"
-                  marginTop="1rem"
+                  marginTop="1em"
                   width="140px"
                   alignSelf="end"
                 >
