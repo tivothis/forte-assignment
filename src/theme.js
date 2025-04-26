@@ -3,7 +3,7 @@ import { extendTheme } from '@chakra-ui/react';
 const theme = extendTheme({
   breakpoints: {
     sm: '30em', // Small devices (480px)
-    md: '48em', // Medium devices (768px)
+    md: '35.625em', // Medium devices (570px)
     lg: '62em', // Large devices (992px)
     xl: '80em', // Extra large devices (1280px)
   },

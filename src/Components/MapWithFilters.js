@@ -13,38 +13,38 @@ import {
   Stack,
   Checkbox,
   Select,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { StateList } from "./StateList.js"; // Import the state list
+// import StateCards from "./StateCards.js"; // Import the state cards
 // import { MultiSelect } from 'chakra-multiselect'
 
 
-export default function MapWithFilters() {
+export default function MapWithFilters({ setViewStateModal}) {
+  const isMobile = useMediaQuery("(max-width: 480px)")[0]; // Check if the screen size is mobile or smaller
+  const isTablet = useMediaQuery("(max-width: 768px)")[0]; // Check if the screen size is tablet or smaller// Use the context
   const [value, setValue] = useState([])
-  const templateColumns = "repeat(2, 1fr)";
-  const templateRows = "40% 55%";
+  const templateColumns = isTablet? "1fr" : "repeat(2, 1fr)";
+  const templateRows = isTablet? "" : "40% 55%";
   const defaultCardColor = "white.50"; // Use the theme color
   const defaultFontColor = "black";
   const labelMarginBottom = "0.5em";
+
+  // const isMobile = useMediaQuery("(max-width: 768px)")[0]; // Check if the screen size is mobile or smaller
+
 
   const stateOptions = Object.values(StateList).map((state) => ({
     value: state,
     label: state,
   }));
-  console.log("🚀 ~ stateOptions ~ stateOptions:", stateOptions)
 
   return (
     <Card
       width="100%"
       height="100%"
       backgroundColor={defaultCardColor}
-      padding="1em"
+      padding={isTablet? "0" :"1em"}
     >
-      <Image
-        src={"/heatmap2.jpg"}
-        alt="Heatmap"
-        width="100%"
-        height="auto"
-      />
       <Grid
         templateColumns={templateColumns}
         templateRows={templateRows}
@@ -165,7 +165,7 @@ export default function MapWithFilters() {
             display="flex"
             flexDirection="column"
             justifyContent="space-between"
-            height="100%"
+            height={isTablet? "" : "100%"}
           >
               {/* <MultiSelect
                 options={stateOptions}
@@ -185,18 +185,39 @@ export default function MapWithFilters() {
               </option>
             ))}
             </Select>
-              <Button
-                colorScheme="teal"
-                variant="solid"
-                size="sm"
-                marginTop="1rem"
-                width="50%"
-                alignSelf="end"
-              >
-                Update
-              </Button>
+            <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent={isMobile? "space-between" : "flex-end"}
+            >
+              {isMobile?
+                <Button
+                  colorScheme="teal"
+                  variant="solid"
+                  size="sm"
+                  marginTop="1rem"
+                  width="50%"
+                  marginRight=".5em"
+                  alignSelf="end"
+                  onClick={() => setViewStateModal(true)}
+                >
+                  View Selected States
+                </Button>
+                :
+                null
+              }
+                <Button
+                  colorScheme="teal"
+                  variant="solid"
+                  size="sm"
+                  marginTop="1rem"
+                  width="50%"
+                  alignSelf="end"
+                >
+                  Update
+                </Button>
+            </Box>
           </Box>
-
         </GridItem>
       </Grid>
 

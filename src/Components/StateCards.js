@@ -5,6 +5,7 @@ import {
   Text,
   Box,
   Button,
+  Heading,
 } from '@chakra-ui/react';// Import the heatmap image
 
 
@@ -17,27 +18,35 @@ export default function StateCards ()  {
       display="flex"
       flexDirection="column"
     >
+      <Heading
+        size={"sm"}
+        margin="1em 0 1em 0"
+      >
+        Selected States
+      </Heading>
       <Card
         display="flex"
         flexDirection="row"
         justifyContent="space-between"
         padding="1em"
       >
-        <CardHeader>
+        <CardHeader padding="0">
           Arkansas
         </CardHeader>
         <Box fontSize="12px" >
           <Text>County: Monroe</Text>
-          <Text>Rank: 1</Text>
-          <Text>Value: 0.1</Text>
-          <Text>Percentile: 0.1</Text>
-          <Text>Percentile Rank: 0.1</Text>
+          <Text>Population: 6683</Text>
+          <Text>Rank: 5</Text>
+          <Text>COPD: 5</Text>
+          <Text>fips: 05095</Text>
         </Box>
       </Card>
       <Box flex="1" />
       <Button
         colorScheme="teal"
         alignSelf="flex-end"
+        width="50%"
+        size="sm"
       >
         Export
       </Button>
