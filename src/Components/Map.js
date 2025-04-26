@@ -6,12 +6,9 @@ import {
   GridItem,
   Image,
   useMediaQuery,
-  useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   Box,
@@ -25,6 +22,9 @@ import theme from '../theme.js'; // Import the theme
 export default function Map() {
   const [isMobile] = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`); // Use the 'sm' breakpoint
   const [isTablet] = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`); // Use 'md' and 'lg' breakpoints
+  const [selectedStates, setSelectedStates] = useState([]);
+  const [isAllStatesChecked, setIsAllStatesChecked] = useState(false); // State for "All States" checkbox
+
   const [viewStateModal, setViewStateModal] = useState(false); // State to control the modal visibility
   const defaultCardColor = "white.50"; // Use the theme color
   const defaultFontColor = "black";
@@ -47,7 +47,7 @@ export default function Map() {
               color={defaultFontColor}
               fontSize="2xl"
               textAlign="center"
-              padding="1rem .5em 1rem .5em"
+              padding="0 .5em 1rem .5em"
             >
               2021 CDC Places Ranking 2024 Release, FL=2019
             </CardHeader>
@@ -63,12 +63,18 @@ export default function Map() {
           gap={3}
           color={defaultFontColor}>
           <GridItem>
-            <MapWithFilters setViewStateModal={setViewStateModal} />
+            <MapWithFilters
+              setViewStateModal={setViewStateModal}
+              selectedStates={selectedStates}
+              setSelectedStates={setSelectedStates}
+              isAllStatesChecked={isAllStatesChecked}
+              setIsAllStatesChecked={setIsAllStatesChecked}
+            />
           </GridItem>
           <GridItem>
             {isMobile?
             null:
-            <StateCards />
+            <StateCards selectedStates={selectedStates} allStates={isAllStatesChecked}/>
             }
           </GridItem>
         </Grid>
@@ -77,7 +83,10 @@ export default function Map() {
         <ModalContent>
           <ModalCloseButton />
           <ModalBody>
-            <StateCards />
+            <StateCards
+              selectedStates={selectedStates}
+              allStates={isAllStatesChecked}
+            />
           </ModalBody>
         </ModalContent>
       </Modal>

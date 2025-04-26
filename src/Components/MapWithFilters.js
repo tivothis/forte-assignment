@@ -21,11 +21,17 @@ import { StateList } from "./StateList.js"; // Import the state list
 import Select from 'react-select';
 import theme from "../theme.js"; // Import the theme
 
-export default function MapWithFilters({ setViewStateModal}) {
+export default function MapWithFilters({
+  setViewStateModal,
+  selectedStates,
+  setSelectedStates,
+  isAllStatesChecked,
+  setIsAllStatesChecked,
+}) {
   const [isMobile] = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`); // Use the 'sm' breakpoint
   const [isTablet] = useMediaQuery(`(min-width: ${theme.breakpoints.lg})`); // Use 'md' and 'lg' breakpoints
-  const [value, setValue] = useState([])
-  const [isAllStatesChecked, setIsAllStatesChecked] = useState(false); // State for "All States" checkbox
+  // const [value, setValue] = useState([])
+  // const [isAllStatesChecked, setIsAllStatesChecked] = useState(false); // State for "All States" checkbox
   const templateColumns = isMobile? "1fr" : "repeat(2, 1fr)";
   const templateRows = "40% 55%";
   const defaultCardColor = "white.50"; // Use the theme color
@@ -42,7 +48,7 @@ export default function MapWithFilters({ setViewStateModal}) {
 
   // Handle selection logic
   const handleChange = (selectedOptions) => {
-    setValue(selectedOptions || []);
+    setSelectedStates(selectedOptions || []);
   };
 
   // Handle "All States" checkbox logic
@@ -52,7 +58,7 @@ export default function MapWithFilters({ setViewStateModal}) {
 
     if (isChecked) {
       // If "All States" is checked, clear the selected options
-      setValue([]);
+      setSelectedStates([]);
     }
   };
 
@@ -187,7 +193,7 @@ export default function MapWithFilters({ setViewStateModal}) {
           >
                         <Select
               options={stateOptions}
-              value={value}
+              value={selectedStates}
               onChange={handleChange}
               isMulti
               placeholder="Choose states"
@@ -279,7 +285,7 @@ export default function MapWithFilters({ setViewStateModal}) {
                   width="140px"
                   alignSelf="end"
                 >
-                  Update
+                  Update Filters
                 </Button>
             </Box>
           </Box>
