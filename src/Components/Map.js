@@ -14,17 +14,17 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Button,
+  Box,
 } from '@chakra-ui/react';// Import the heatmap image
 import MapWithFilters from './MapWithFilters.js';
 import StateCards from './StateCards.js'; // Import the state cards
+import theme from '../theme.js'; // Import the theme
 
 // export const MapContext = createContext();
 
 export default function Map() {
-  const isMobile = useMediaQuery("(max-width: 480px)")[0]; // Check if the screen size is mobile or smaller
-  const isTablet = useMediaQuery("(max-width: 768px)")[0]; // Check if the screen size is tablet or smaller
-  // const { isOpen, onClose } = useDisclosure()
+  const [isMobile] = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`); // Use the 'sm' breakpoint
+  const [isTablet] = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`); // Use 'md' and 'lg' breakpoints
   const [viewStateModal, setViewStateModal] = useState(false); // State to control the modal visibility
   const defaultCardColor = "white.50"; // Use the theme color
   const defaultFontColor = "black";
@@ -38,22 +38,26 @@ export default function Map() {
         backgroundColor={defaultCardColor}
         width="100%"
         height="100%"
+        maxHeight="100vh" // Ensure the Card does not exceed the viewport height
+        overflow="auto" // Handle any overflowing content
         padding="1rem .5em 1rem .5em"
         >
-        <CardHeader
-          color={defaultFontColor}
-          fontSize="2xl"
-          textAlign="center"
-          padding="1rem .5em 1rem .5em"
-        >
-          2021 CDC Places Ranking 2024 Release, FL=2019
-        </CardHeader>
-          <Image
-            src={"/heatmap2.jpg"}
-            alt="Heatmap"
-            width="100%"
-            height="auto"
-          />
+          <Box display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
+            <CardHeader
+              color={defaultFontColor}
+              fontSize="2xl"
+              textAlign="center"
+              padding="1rem .5em 1rem .5em"
+            >
+              2021 CDC Places Ranking 2024 Release, FL=2019
+            </CardHeader>
+              <Image
+                src={"/heatmap2.jpg"}
+                alt="Heatmap"
+                width="75%"
+                height="auto"
+              />
+          </Box>
         <Grid
           templateColumns={templateColumns}
           gap={3}

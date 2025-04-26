@@ -2,10 +2,15 @@ import { extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
   breakpoints: {
-    sm: '30em', // Small devices (480px)
-    md: '35.625em', // Medium devices (570px)
-    lg: '62em', // Large devices (992px)
-    xl: '80em', // Extra large devices (1280px)
+    // sm: '30em', // Small devices (480px)
+    // md: '48em', // Medium devices (768px)
+    // lg: '62em', // Large devices (992px)
+    // xl: '80em', // Extra large devices (1280px)
+    xs: '480px', // Extra small devices (0px)
+    sm: '830px', // Small devices (480px)
+    md: '1200px', // Medium devices (1200px)
+    lg: '1280px', // Large devices (992px)
+    xl: '1500px', // Extra large devices (1280px)
   },
   colors: {
     gray: {

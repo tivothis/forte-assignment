@@ -45,7 +45,7 @@ export default function StateCards ()  {
       <Button
         colorScheme="teal"
         alignSelf="flex-end"
-        width="50%"
+        width="140px"
         size="sm"
       >
         Export

@@ -1,6 +1,4 @@
 export const StateList = {
-  "All": "All States",
-  "None": "None",
   "Alabama": "Alabama",
   "Alaska": "Alaska",
   "Arizona": "Arizona",

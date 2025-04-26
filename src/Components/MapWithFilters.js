@@ -12,20 +12,22 @@ import {
   RadioGroup,
   Stack,
   Checkbox,
-  Select,
+  // Select,
   useMediaQuery,
 } from "@chakra-ui/react";
 import { StateList } from "./StateList.js"; // Import the state list
-// import StateCards from "./StateCards.js"; // Import the state cards
-// import { MultiSelect } from 'chakra-multiselect'
 
+// import { MultiSelect } from 'chakra-multiselect'
+import Select from 'react-select';
+import theme from "../theme.js"; // Import the theme
 
 export default function MapWithFilters({ setViewStateModal}) {
-  const isMobile = useMediaQuery("(max-width: 480px)")[0]; // Check if the screen size is mobile or smaller
-  const isTablet = useMediaQuery("(max-width: 768px)")[0]; // Check if the screen size is tablet or smaller// Use the context
+  const [isMobile] = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`); // Use the 'sm' breakpoint
+  const [isTablet] = useMediaQuery(`(min-width: ${theme.breakpoints.lg})`); // Use 'md' and 'lg' breakpoints
   const [value, setValue] = useState([])
-  const templateColumns = isTablet? "1fr" : "repeat(2, 1fr)";
-  const templateRows = isTablet? "" : "40% 55%";
+  const [isAllStatesChecked, setIsAllStatesChecked] = useState(false); // State for "All States" checkbox
+  const templateColumns = isMobile? "1fr" : "repeat(2, 1fr)";
+  const templateRows = "40% 55%";
   const defaultCardColor = "white.50"; // Use the theme color
   const defaultFontColor = "black";
   const labelMarginBottom = "0.5em";
@@ -38,6 +40,22 @@ export default function MapWithFilters({ setViewStateModal}) {
     label: state,
   }));
 
+  // Handle selection logic
+  const handleChange = (selectedOptions) => {
+    setValue(selectedOptions || []);
+  };
+
+  // Handle "All States" checkbox logic
+  const handleAllStatesChange = (e) => {
+    const isChecked = e.target.checked;
+    setIsAllStatesChecked(isChecked);
+
+    if (isChecked) {
+      // If "All States" is checked, clear the selected options
+      setValue([]);
+    }
+  };
+
   return (
     <Card
       width="100%"
@@ -48,7 +66,7 @@ export default function MapWithFilters({ setViewStateModal}) {
       <Grid
         templateColumns={templateColumns}
         templateRows={templateRows}
-
+        height={isMobile? "50%" : "100%"}
         gap={2}
         color={defaultFontColor}
         padding="1rem .5em 1rem .5em"
@@ -62,11 +80,11 @@ export default function MapWithFilters({ setViewStateModal}) {
           </Heading>
           <Card
             backgroundColor={defaultCardColor}
-            // padding="1rem .5em 1rem .5em"
+            padding=".5em"
             borderRadius="md"
             color={defaultFontColor}
           >
-            <CardBody>
+            <CardBody padding=".5em">
               <RadioGroup >
                 <Stack spacing={35} direction='row'>
                   <Radio value='Quantile'>
@@ -89,11 +107,11 @@ export default function MapWithFilters({ setViewStateModal}) {
           </Heading>
           <Card
             backgroundColor={defaultCardColor}
-            // padding="1rem .5em 1rem .5em"
+            padding=".5em"
             borderRadius="md"
             color={defaultFontColor}
           >
-            <CardBody>
+            <CardBody padding=".5em">
               <RadioGroup >
                 <Stack spacing={35} direction='row'>
                   <Radio value='Rank'>
@@ -116,13 +134,13 @@ export default function MapWithFilters({ setViewStateModal}) {
         </Heading>
           <Card
             backgroundColor={defaultCardColor}
-            // padding="1rem .5em 1rem .5em"
+            padding="0 .5em .5em .5em"
             borderRadius="md"
             color={defaultFontColor}
-            height="100%"
+            height="80%"
           >
-            <CardBody display="flex" flexDirection="row">
-              <Stack direction="column" spacing={1} marginRight="3rem">
+            <CardBody display="flex" flexDirection="row" padding=".5em">
+              <Stack direction="column"  marginRight="3rem" spacing={0}>
                 <Checkbox value="Arthritis">
                   Arthistis
                 </Checkbox>
@@ -136,7 +154,7 @@ export default function MapWithFilters({ setViewStateModal}) {
                   Disability
                 </Checkbox>
               </Stack>
-              <Stack direction="column" spacing={1}>
+              <Stack direction="column" spacing={0}>
                 <Checkbox value="Obesity">
                   Obesity
                 </Checkbox>
@@ -167,28 +185,75 @@ export default function MapWithFilters({ setViewStateModal}) {
             justifyContent="space-between"
             height={isTablet? "" : "100%"}
           >
-              {/* <MultiSelect
-                options={stateOptions}
-                value={value}
-                label='Choose an item'
-                onChange={setValue}
-              /> */}
-          <Select
-            value={value}
-            label='Choose an item'
-            onChange={setValue}
-            isMulti
-          >
-            {stateOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-            </Select>
+                        <Select
+              options={stateOptions}
+              value={value}
+              onChange={handleChange}
+              isMulti
+              placeholder="Choose states"
+              closeMenuOnSelect={false}
+              isDisabled={isAllStatesChecked} // Disable the Select component if "All States" is checked
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  borderColor: "gray.300",
+                  boxShadow: "none",
+                  "&:hover": { borderColor: "gray.400" },
+                  minHeight: "40px",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  zIndex: 9999,
+                }),
+                valueContainer: (base) => ({
+                  ...base,
+                  flexWrap: "wrap",
+                  overflowY: "auto",
+                  maxHeight: "70px",
+                  padding: "4px",
+                  scrollbarWidth: "thin",
+                  "&::-webkit-scrollbar": {
+                    width: "6px",
+                    height: "6px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "#c4c4c4",
+                    borderRadius: "4px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    background: "#f0f0f0",
+                  },
+                }),
+                multiValue: (base) => ({
+                  ...base,
+                  margin: "2px",
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                  color: "black",
+                  "&:active": {
+                    backgroundColor: "#e2e8f0",
+                  },
+                }),
+              }}
+              menuPortalTarget={document.body}
+              menuPosition="absolute"
+              menuPlacement="auto"
+            />
+            <Checkbox
+              isChecked={isAllStatesChecked}
+              onChange={handleAllStatesChange}
+            >
+              <Box as="span" pointerEvents="none">
+                All States
+              </Box>
+            </Checkbox>
             <Box
             display="flex"
             flexDirection="row"
-            justifyContent={isMobile? "space-between" : "flex-end"}
+            justifyContent={isMobile? "space-around" : "flex-end"}
+            alignItems="center"
             >
               {isMobile?
                 <Button
@@ -211,7 +276,7 @@ export default function MapWithFilters({ setViewStateModal}) {
                   variant="solid"
                   size="sm"
                   marginTop="1rem"
-                  width="50%"
+                  width="140px"
                   alignSelf="end"
                 >
                   Update
