@@ -287,6 +287,8 @@ export default function MapWithFilters({
                 :
                 null
               }
+                <Box flex="1" />
+
                 <Button
                   colorScheme="teal"
                   variant="solid"

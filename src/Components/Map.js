@@ -89,8 +89,8 @@ export default function Map() {
         <Modal isOpen={viewStateModal} onClose={() => setViewStateModal(false)}>
         <ModalOverlay />
         <ModalContent>
-          <ModalCloseButton />
           <ModalBody>
+          <ModalCloseButton zIndex="1" color="black" margin=".5em 2em 0 0"/>
             <StateCards
               selectedStates={selectedStates}
               allStates={isAllStatesChecked}

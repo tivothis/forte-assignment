@@ -6,12 +6,15 @@ import {
   Box,
   Button,
   Heading,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { StateList } from './StateList.js';
 import theme from '../theme.js';
 
 
 export default function StateCards ({ selectedStates, allStates }) {
+
+  const [isMobile] = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
   const styling = {
     parentCardColor: theme.colors.gray[100],
@@ -33,13 +36,13 @@ export default function StateCards ({ selectedStates, allStates }) {
     >
       <Heading
         size={"sm"}
-        margin="0"
+        margin="0 0 .5em 0"
         color={styling.fontColor}
       >
         Selected States
       </Heading>
       <Box
-        maxHeight="200px"
+        maxHeight={isMobile? "70vh" : "180px"}
         overflowY="auto"
         style={{
           scrollbarWidth: 'thin',
