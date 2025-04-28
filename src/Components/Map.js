@@ -31,6 +31,7 @@ export default function Map() {
   const parentCardStyling = {
     backgroundColor: theme.colors.gray[50],
     fontColor: theme.colors.blue[200],
+    headerSize: isMobile? "22px" :"30px",
     width: "100%",
     maxHeight: "100vh",
     overflow: "auto",
@@ -50,7 +51,7 @@ export default function Map() {
           <Box display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
             <CardHeader
               color={parentCardStyling.fontColor}
-              fontSize="30px"
+              fontSize={parentCardStyling.headerSize}
               fontWeight="bold"
               textAlign="center"
               padding="0 .5em 1rem .5em"

@@ -46,7 +46,7 @@ function App() {
       overflow="hidden"
     >
       <Tabs
-        orientation={isMobile ? "horizontal" : isTablet ? "horizontal" : "vertical"}
+        orientation={isMobile || isTablet ? "horizontal" : "vertical"}
         variant="soft-rounded"
         display="flex"
         flexDirection={isMobile ? "column-reverse" : isTablet ? "column" : "row"}
@@ -57,10 +57,10 @@ function App() {
         defaultIndex={3}
       >
         <TabList
-          width={isMobile ? "100%" : isTablet ? "100%" : "22%"}
+          width={isMobile || isTablet ? "100%" : "22%"}
           padding="1rem .5em 1rem .5em"
           gap={isMobile ? tabStyling.gap.base : isTablet ? tabStyling.gap.sm : tabStyling.gap.md}
-          flexDirection={isMobile ? "row" : isTablet ? "row" : "column"}
+          flexDirection={isMobile || isTablet ? "row" : "column"}
           flexShrink={0}
           position={isMobile ? "absolute" : "static"}
           bottom={isMobile ? 0 : "auto"}
